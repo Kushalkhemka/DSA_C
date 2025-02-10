@@ -5,4 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(DSA main.cpp
         "Sparsed Matrix.c"
-        Queue_Using_Circular_Array.c)
+        Queue_with_Circular_Array.c
+        Linked_list.c
+        Double_Stack_Array.c
+        Stack_Using_Array.c)

@@ -4,13 +4,26 @@
 struct stack {
     int array[MAXSIZE];
     int top;
+    int min;
 };
 
 int peek(struct stack *s) {
     return s->array[s->top];
 }
+
+int min_element_traverse(struct stack *s) {
+    int min_ele=s->top;
+    for(int i=s->top;i>=0;i--) {
+        if(s->array[i]<min_ele) {
+            min_ele=s->array[i];
+        }
+    }
+    return min_ele;
+}
+
+
 void push(struct stack *s, const int value) {
-    if(s->top>=19) {
+    if(s->top>=MAXSIZE-1) {
         printf("Overflow!");
     }else {
         s->top++;
