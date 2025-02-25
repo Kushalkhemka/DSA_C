@@ -8,4 +8,5 @@ add_executable(DSA main.cpp
         Queue_with_Circular_Array.c
         Linked_list.c
         Double_Stack_Array.c
-        Stack_Using_Array.c)
+        Stack_Using_Array.c
+        "reverse-eng .cpp")
