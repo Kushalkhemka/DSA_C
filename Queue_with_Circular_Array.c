@@ -57,6 +57,3 @@ int dequeue(Queue* q1) {
 
 }
 
-int main(){
-  Queue q1;
-}

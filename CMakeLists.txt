@@ -9,4 +9,6 @@ add_executable(DSA main.cpp
         Linked_list.c
         Double_Stack_Array.c
         Stack_Using_Array.c
-        "reverse-eng .cpp")
+        "advanced_linked_list.cpp"
+        doubly_linked_list.cpp
+        doubly_linked_list.cpp)

@@ -9,22 +9,7 @@ struct Node {
     }
 };
 
-void KthNodeFromEnd(Node *head_ref, int k) {
-    if(head_ref==nullptr) {
-        return;
-    }
 
-    Node* first = head_ref; Node* second=head_ref;
-    for(int i=0; i<k;i++) {
-        if(first==nullptr) return;
-        first = first->next;
-    }
-    while(first!=nullptr) {
-        second=second->next;
-        first=first->next;
-    }
-    std::cout<<second->data<<std::endl;
-}
 
 void printList(Node *head_ref) {
     Node *temp = head_ref;
@@ -46,51 +31,36 @@ Node* reverseLL(Node* head_ref) {
     }
 }
 
-Node* prepend(Node *head_ref, int data) {
-    Node *newNode = new Node(data);
-    newNode->next = head_ref;
-    head_ref = newNode;
+void middleNode(Node* head_ref) {
+    if(head_ref==nullptr) return;
+
+    Node* slow = head_ref; Node* fast = head_ref;
+    while(fast!=nullptr&&fast->next!=nullptr){ //taking care of both odd and even number of nodes //fast!=nullptr is taking care of all cases shortcircuiting
+        slow=slow->next;
+        fast=fast->next->next;
+
+    }
+    std::cout << slow->data << std::endl;
+}
+
+Node* insert(Node* head_ref,int data) {
+    Node* newNode = new Node(data);
+    if(head_ref==nullptr) {
+        return newNode;
+    }
+    if(data<head_ref->data) {
+        newNode->next = head_ref;
+        return newNode;
+    }
+    Node* temp = head_ref;
+    while(temp->next!=nullptr && temp->next->data<data) {
+        temp=temp->next;
+    }
+
+
+    newNode->next=temp->next;
+    temp->next=newNode;
     return head_ref;
-
-}
-
-Node* insertPos(Node *head,int pos, int data) {
-    Node *newNode = new Node(data);
-    Node *prev = head;
-    if (pos == 1) {
-        newNode->next = head;
-        return newNode;
-    }
-    if(head==nullptr) {
-        newNode->next = head;  // head is NULL here
-        head = newNode;
-        return head;
-    }
-    for(int i=0;i<pos-2 && prev!=nullptr;i++) {
-        prev = prev->next;
-    }
-
-    if(prev==nullptr) {
-        return head;
-    }
-    newNode->next=prev->next;
-    prev->next=newNode;
-    return head;
-}
-
-Node* append(Node *head_ref, int data) {
-    Node *newNode = new Node(data);
-    if (head_ref == NULL) {
-        // If the list is empty, new node becomes the head.
-        return newNode;
-    }
-
-    Node *temp = head_ref;  // Use a temporary pointer to traverse.
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-    temp->next = newNode;  // Append new node at the end.
-    return head_ref;       // Return the original head.
 }
 
 
@@ -156,12 +126,16 @@ int main() {
     head->next=new Node(20);
     head->next->next=new Node(30);
     printList(head);
-    recursive_printList(head);
-    head=prepend(head,5);
-    head= append(head,7);
-    head = insertPos(head, 1, 9);
-    head = delete_last_node(head);
+    head = insert(head,25);
+    head = insert(head,40);
+    head = insert(head,7);
     printList(head);
-    KthNodeFromEnd(head,3);
+    middleNode(head);
+    // recursive_printList(head);
+    // head=prepend(head,5);
+    // head= append(head,7);
+    // head = insertPos(head, 1, 9);
+    // head = delete_last_node(head);
+    // printList(head);
     return 0;
 }

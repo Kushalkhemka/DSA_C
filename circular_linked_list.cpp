@@ -9,29 +9,13 @@ struct Node {
     }
 };
 
-void KthNodeFromEnd(Node *head_ref, int k) {
-    if(head_ref==nullptr) {
-        return;
-    }
-
-    Node* first = head_ref; Node* second=head_ref;
-    for(int i=0; i<k;i++) {
-        if(first==nullptr) return;
-        first = first->next;
-    }
-    while(first!=nullptr) {
-        second=second->next;
-        first=first->next;
-    }
-    std::cout<<second->data<<std::endl;
-}
-
 void printList(Node *head_ref) {
     Node *temp = head_ref;
-    while (temp != NULL) {
+    if(head_ref==nullptr) return;
+    do {
         std::cout << temp->data << "->";
-        temp = temp->next;
-    }
+        temp=temp->next;
+    }while (temp != head_ref);
     std::cout << "NULL" << std::endl;
 }
 
@@ -48,9 +32,18 @@ Node* reverseLL(Node* head_ref) {
 
 Node* prepend(Node *head_ref, int data) {
     Node *newNode = new Node(data);
+    if(head_ref==nullptr) {
+        newNode->next=newNode;
+    }
+
+    Node* temp = head_ref;
+
+    while(temp->next!=head_ref) {
+        temp=temp->next;
+    }
+    temp->next = newNode;
     newNode->next = head_ref;
-    head_ref = newNode;
-    return head_ref;
+    return newNode;
 
 }
 
@@ -76,21 +69,65 @@ Node* insertPos(Node *head,int pos, int data) {
     newNode->next=prev->next;
     prev->next=newNode;
     return head;
+
 }
 
 Node* append(Node *head_ref, int data) {
     Node *newNode = new Node(data);
     if (head_ref == NULL) {
         // If the list is empty, new node becomes the head.
+        newNode->next=newNode;
         return newNode;
     }
 
     Node *temp = head_ref;  // Use a temporary pointer to traverse.
-    while (temp->next != NULL) {
+    while (temp->next != head_ref) {
         temp = temp->next;
     }
     temp->next = newNode;  // Append new node at the end.
+    newNode->next=head_ref;
     return head_ref;       // Return the original head.
+}
+
+Node* effappend(Node *head_ref, int data) { //O(1)
+    Node *newNode = new Node(data);
+    if (head_ref == NULL) {
+        // If the list is empty, new node becomes the head.
+        newNode->next=newNode;
+        return newNode;
+    }
+
+
+    newNode->next=head_ref->next; //insert at 2nd position
+    head_ref->next=newNode; //insert at 2nd position
+    //swapping values
+    int t= head_ref->data;
+    head_ref->data = newNode->data;
+    newNode->data= t;
+
+    //now changing head ref to second node
+    head_ref=head_ref->next;
+    return head_ref;
+    //similar prepend can be optimised to do the prepend in O(1).
+}
+Node* delHead(Node* head_ref) {
+    // Node* temp = head_ref;
+    //swapping data
+    if(head_ref==nullptr) {
+        return nullptr;
+    }
+    if(head_ref->next==head_ref) {
+        delete(head_ref);
+        return nullptr;
+    }
+    head_ref->data=head_ref->next->data;
+    Node* temp = head_ref->next;
+    head_ref->next= head_ref->next->next;
+    delete(temp);
+    return head_ref;
+
+
+
 }
 
 
@@ -155,13 +192,17 @@ int main() {
     Node *head=new Node(10);
     head->next=new Node(20);
     head->next->next=new Node(30);
+    head->next->next->next=head;
+    head = append(head,40);
+    head= prepend(head,50);
+    head = effappend(head, 60);
     printList(head);
-    recursive_printList(head);
-    head=prepend(head,5);
-    head= append(head,7);
-    head = insertPos(head, 1, 9);
-    head = delete_last_node(head);
-    printList(head);
-    KthNodeFromEnd(head,3);
+
+    // recursive_printList(head);
+    // head=prepend(head,5);
+    // head= append(head,7);
+    // head = insertPos(head, 1, 9);
+    // head = delete_last_node(head);
+    // printList(head);
     return 0;
 }
