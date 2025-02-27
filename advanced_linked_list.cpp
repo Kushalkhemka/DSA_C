@@ -44,7 +44,12 @@ Node* reverseLL(Node* head_ref) {
         curr = next;
 
     }
+    return  prev;
 }
+//
+// Node* RreverseLL(Node *head_ref, Node*prev = nullptr, Node ) {
+//     Node* curr=head_ref;Node
+// }
 
 Node* prepend(Node *head_ref, int data) {
     Node *newNode = new Node(data);

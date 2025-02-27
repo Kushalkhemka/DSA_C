@@ -11,4 +11,8 @@ add_executable(DSA main.cpp
         Stack_Using_Array.c
         "advanced_linked_list.cpp"
         doubly_linked_list.cpp
-        doubly_linked_list.cpp)
+        doubly_linked_list.cpp
+        stack_using_LL.c
+        balanced_paranthesis.c
+        K_stack_using_array.c
+)

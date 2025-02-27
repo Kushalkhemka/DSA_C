@@ -29,10 +29,23 @@ Node* reverseLL(Node* head_ref) {
         curr = next;
 
     }
+    return prev;
+}
+Node* RreverseLL(Node* head_ref) {
+    if(head_ref==nullptr || head_ref->next==nullptr) {
+        return head_ref;
+    }
+    Node* rest_head = RreverseLL(head_ref->next);
+    Node* rest_tail = head_ref->next;
+    rest_tail->next = head_ref; //changing link from next to prev (reversing)
+    head_ref->next = nullptr;
+    return rest_head;
 }
 
 void middleNode(Node* head_ref) {
     if(head_ref==nullptr) return;
+
+
 
     Node* slow = head_ref; Node* fast = head_ref;
     while(fast!=nullptr&&fast->next!=nullptr){ //taking care of both odd and even number of nodes //fast!=nullptr is taking care of all cases shortcircuiting
@@ -41,6 +54,22 @@ void middleNode(Node* head_ref) {
 
     }
     std::cout << slow->data << std::endl;
+}
+
+Node* removeDuplicate(Node* head_ref) {
+    Node* temp = head_ref;
+    if(head_ref==nullptr) return nullptr;
+    while(temp->next!=nullptr) {
+        if(temp->data==temp->next->data) {
+            Node* del=temp->next;
+            temp->next = del->next;
+            delete(del);
+        }
+        else {
+            temp=temp->next;
+        }
+    }
+    return head_ref;
 }
 
 Node* insert(Node* head_ref,int data) {
@@ -126,11 +155,16 @@ int main() {
     head->next=new Node(20);
     head->next->next=new Node(30);
     printList(head);
-    head = insert(head,25);
-    head = insert(head,40);
-    head = insert(head,7);
+    // head = insert(head,25);
+    // head = insert(head,40);
+    // head = insert(head,7);
+    // head = insert(head,20);
+    // head = insert(head,20);
+    // head = insert(head,30);
+    head = removeDuplicate(head);
+    head = RreverseLL(head);
     printList(head);
-    middleNode(head);
+    // middleNode(head);
     // recursive_printList(head);
     // head=prepend(head,5);
     // head= append(head,7);
