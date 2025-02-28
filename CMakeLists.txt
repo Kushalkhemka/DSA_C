@@ -15,4 +15,6 @@ add_executable(DSA main.cpp
         stack_using_LL.c
         balanced_paranthesis.c
         K_stack_using_array.c
+        Infinix_To_Postfix_With_Eval.c
+        Infix_To_Prefix_With_Eval.c
 )
