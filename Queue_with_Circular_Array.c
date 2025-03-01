@@ -1,59 +1,94 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-#define MAXSIZE 20
+#define CAPACITY 3 // Maximum size of the circular queue
 
+typedef struct {
+  int arr[CAPACITY];
+  int front, size;
+} CircularQueue;
 
-typedef struct{
-  int array[MAXSIZE];
-  int rear;
-  int front;
-  int size;
-
-}Queue;
-
-void initialize(Queue *q1) {
-  q1->rear=-1;
-  q1->front=-1;
-  q1->size=0;
-
+// Function to check if the queue is full
+bool isFull(CircularQueue *q) {
+  return (q->size == CAPACITY);
 }
 
-int isFull(const Queue q1) {
-  return q1.size==MAXSIZE;
+// Function to check if the queue is empty
+bool isEmpty(CircularQueue *q) {
+  return (q->size == 0);
 }
 
-int isEmpty(const Queue q1) {
-  return q1.size==0;
+// Function to get the front index
+int getFront(CircularQueue *q) {
+  if (isEmpty(q))
+    return -1;
+  return q->front;
 }
 
-void enqueue(Queue *q1, int value) {
-  if(isFull(*q1)) {
+// Function to get the rear index
+int getRear(CircularQueue *q) {
+  if (isEmpty(q))
+    return -1;
+  return (q->front + q->size - 1) % CAPACITY;
+}
+
+// Function to enqueue an element
+void enqueue(CircularQueue *q, int x) {
+  if (isFull(q))
+    return;
+
+  int rear = getRear(q);
+  rear = (rear + 1) % CAPACITY;
+  q->arr[rear] = x;
+  q->size++;
+}
+
+// Function to dequeue an element
+int dequeue(CircularQueue *q) {
+  if (isEmpty(q)) {
     printf("Underflow!");
+    return INT_MIN;
+  }
+  int x= q->arr[q->front];
+  q->front = (q->front + 1) % CAPACITY;
+  q->size--;
+  return x;
+}
+
+// Function to print the queue
+void printQueue(CircularQueue *q) {
+  if (isEmpty(q)) {
+    printf("Queue is empty.\n");
     return;
   }
 
-  if(isEmpty(*q1)) {
-    q1->front=0;
+  printf("Queue elements: ");
+  for (int i = 0; i < q->size; i++) {
+    int index = (q->front + i) % CAPACITY;
+    printf("%d ", q->arr[index]);
   }
-
-  q1->rear=(q1->rear+1)%MAXSIZE;
-  q1->array[q1->rear] = value;
-  q1->size++;
-
+  printf("\n");
 }
 
-int dequeue(Queue* q1) {
+// Main function
+int main() {
+  CircularQueue q = {{0}, 0, 0}; // Initialize queue
 
-  if(isEmpty(*q1)) {
-    printf("Underflow!");
-    return -1;
-  }
+  enqueue(&q, 10);
+  enqueue(&q, 20);
+  enqueue(&q, 30);
+  printQueue(&q);
 
-  q1->front=(q1->front+1)%MAXSIZE;
-  return q1->array[q1->front];
+  printf("Deque %d\n",dequeue(&q));
+  printf("Deque %d\n",dequeue(&q));
+  printf("Deque %d\n",dequeue(&q));
 
+  enqueue(&q, 40);
+  printQueue(&q);
 
+  dequeue(&q);
+  printQueue(&q);
 
+  return 0;
 }
-

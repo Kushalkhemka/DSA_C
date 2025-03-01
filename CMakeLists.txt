@@ -17,4 +17,5 @@ add_executable(DSA main.cpp
         K_stack_using_array.c
         Infinix_To_Postfix_With_Eval.c
         Infix_To_Prefix_With_Eval.c
+        Queue_using_LL.c
 )
